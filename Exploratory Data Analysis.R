@@ -182,7 +182,7 @@ prev_summary <- data.frame(
 
 print(prev_summary)
 
-# Optional: prevalence distribution plot
+# prevalence distribution plot
 prev_df <- data.frame(Prevalence = asv_prev_all)
 
 ggplot(prev_df, aes(x = Prevalence)) +
@@ -196,7 +196,6 @@ ggplot(prev_df, aes(x = Prevalence)) +
 # Top 20 genera barplot (HC vs RA)
 # -----------------------------
 
-# genus_rel already created earlier (relative abundance genus x samples)
 
 genus_bar <- genus_rel %>%
   mutate(
@@ -238,3 +237,4 @@ p_top20 <- ggplot(genus_bar_top, aes(x = Genus, y = MeanRelAbund, fill = Group))
        y = "Mean Relative Abundance")
 ggsave("Figure_Top20_Genera.png", plot = p_top20,
        width = 10, height = 7, dpi = 300)
+
