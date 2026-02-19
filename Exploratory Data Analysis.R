@@ -65,6 +65,34 @@ cat("Low-depth cutoff (5th percentile):", low_depth_cutoff, "\n")
 cat("Number of low-depth samples:", sum(depth_df$Depth < low_depth_cutoff), "\n\n")
 
 # -----------------------------
+# Sequencing Depth Summary Stats
+# -----------------------------
+
+# Overall
+cat("\n--- Sequencing Depth (Overall) ---\n")
+cat("Mean depth:", mean(depth_df$Depth, na.rm = TRUE), "\n")
+cat("Median depth:", median(depth_df$Depth, na.rm = TRUE), "\n")
+
+# By Group
+library(dplyr)
+
+depth_stats <- depth_df %>%
+  group_by(Group) %>%
+  summarise(
+    n = n(),
+    mean_depth = mean(Depth, na.rm = TRUE),
+    median_depth = median(Depth, na.rm = TRUE),
+    sd_depth = sd(Depth, na.rm = TRUE),
+    min_depth = min(Depth, na.rm = TRUE),
+    max_depth = max(Depth, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+cat("\n--- Sequencing Depth by Group ---\n")
+print(depth_stats)
+
+
+# -----------------------------
 # 4) Objective 3: Diversity + separability
 # -----------------------------
 
@@ -97,6 +125,33 @@ ggplot(div_df, aes(x = Group, y = Shannon)) +
   geom_jitter(width = 0.15, alpha = 0.4) +
   theme_minimal() +
   labs(title = "Shannon Diversity (Alpha Diversity)", y = "Shannon Index")
+
+# -----------------------------
+# Shannon Diversity Summary Stats
+# -----------------------------
+
+# Overall
+cat("\n--- Shannon Diversity (Overall) ---\n")
+cat("Mean Shannon:", mean(div_df$Shannon, na.rm = TRUE), "\n")
+cat("Median Shannon:", median(div_df$Shannon, na.rm = TRUE), "\n")
+
+# By Group
+library(dplyr)
+
+shannon_stats <- div_df %>%
+  group_by(Group) %>%
+  summarise(
+    n = n(),
+    mean_shannon = mean(Shannon, na.rm = TRUE),
+    median_shannon = median(Shannon, na.rm = TRUE),
+    sd_shannon = sd(Shannon, na.rm = TRUE),
+    min_shannon = min(Shannon, na.rm = TRUE),
+    max_shannon = max(Shannon, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+cat("\n--- Shannon Diversity by Group ---\n")
+print(shannon_stats)
 
 # -----------------------------
 # 5) Genus-level EDA
@@ -237,4 +292,5 @@ p_top20 <- ggplot(genus_bar_top, aes(x = Genus, y = MeanRelAbund, fill = Group))
        y = "Mean Relative Abundance")
 ggsave("Figure_Top20_Genera.png", plot = p_top20,
        width = 10, height = 7, dpi = 300)
+
 
