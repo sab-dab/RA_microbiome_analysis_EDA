@@ -111,6 +111,9 @@ ggplot(rich_df, aes(x = Group, y = Richness)) +
   theme_minimal() +
   labs(title = "ASV Richness (Alpha Diversity)", y = "Number of ASVs")
 
+rich_df %>% filter(Sample %in% c("HC1156","HC0764","HC1080"))
+
+
 # Shannon diversity
 shannon <- vegan::diversity(t(asv_mat), index = "shannon")
 
@@ -153,6 +156,7 @@ shannon_stats <- div_df %>%
 cat("\n--- Shannon Diversity by Group ---\n")
 print(shannon_stats)
 
+div_df %>% filter(Shannon < 1)
 # -----------------------------
 # 5) Genus-level EDA
 # -----------------------------
@@ -292,5 +296,6 @@ p_top20 <- ggplot(genus_bar_top, aes(x = Genus, y = MeanRelAbund, fill = Group))
        y = "Mean Relative Abundance")
 ggsave("Figure_Top20_Genera.png", plot = p_top20,
        width = 10, height = 7, dpi = 300)
+
 
 
